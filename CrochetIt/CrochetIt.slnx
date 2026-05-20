@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../CrochetItAPI/CrochetItAPI.csproj" />
+  <Project Path="CrochetIt.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

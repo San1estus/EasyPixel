@@ -1,0 +1,6 @@
+@CrochetItAPI_HostAddress = http://localhost:5068
+
+GET {{CrochetItAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CrochetIt.MainPage"
+             Title="CrochetIt">
+
+    <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+
+        <Label Text="Crochet It"
+               FontSize="32"
+               HorizontalOptions="Center"/>
+
+        <Button Text="Crear nuevo patrón"
+                Clicked="OnCrearPatronClicked"
+                HorizontalOptions="Fill"/>
+        <Button Text="Ver Catálogo"
+                Clicked="OnCatalogoClicked"
+                HorizontalOptions="Fill"/>
+        
+    </VerticalStackLayout>
+
+</ContentPage> 
