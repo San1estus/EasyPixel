@@ -4,7 +4,6 @@ namespace CrochetIt
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
 
         public MainPage()
         {
@@ -16,8 +15,9 @@ namespace CrochetIt
             await Shell.Current.GoToAsync(nameof(PatternEditorPage));
         }
 
-        private async void OnCatalogoClicked(object? sender, EventArgs e) {
-            throw new NotImplementedException();
+        private async void OnCatalogoClicked(object? sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync(nameof(CatalogoPage));
         }
     }
 }

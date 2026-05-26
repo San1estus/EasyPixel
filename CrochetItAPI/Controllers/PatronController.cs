@@ -3,7 +3,6 @@ using CrochetItAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CrochetItAPI.Controllers
 {
@@ -17,13 +16,16 @@ namespace CrochetItAPI.Controllers
         {
             this.patronService = patronService;
         }
-        // GET: api/<PatronController>
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
+        [HttpGet("todos")]
+        public async Task<ActionResult<List<Patron>>> GetAllPatrones()
+        {
+            var patrones = await patronService.GetAllPatronesAsync();
+            if (patrones.Count == 0)
+            {
+                return NoContent();
+            }
+            return Ok(patrones);
+        }
         // GET api/<PatronController>/5
         [HttpGet("obtenerpatron/{id}")]
         public async Task<ActionResult<Patron>> Get(int id)

@@ -1,6 +1,4 @@
-﻿using SkiaSharp;
-
-namespace CrochetItAPI.Entities
+﻿namespace CrochetIt.Models
 {
     public class Patron
     {

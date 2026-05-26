@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
              x:Class="CrochetIt.Views.PatternEditorPage">
 
-    <Grid Margin ="20" RowSpacing="20" RowDefinitions="Auto, Auto, *, Auto" ColumnDefinitions = "*, *">
-        <!-- Selector de resolución -->
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="{Binding PixelSizeInt}" FontSize="18"/>
+            <Slider Minimum="1" Maximum="100" Value="{Binding PixelSize}" DragCompleted="OnSliderDragCompleted"/>
 
-        <Picker x:Name="gridSizePicker" Title="Resolución del patrón" Grid.Row="0" Grid.ColumnSpan="2">
-            <Picker.Items>
-                <x:String>32</x:String>
-                <x:String>64</x:String>
-                <x:String>128</x:String>
-                <x:String>256</x:String>
-            </Picker.Items>
-        </Picker>
+            <!-- Botón para elegir imagen -->
+            <Button Text="Seleccionar imagen" Clicked="OnSelectImageClicked" />
 
-        <!-- Botón para elegir imagen --> 
-        <Button Text="Seleccionar imagen" Clicked="OnSelectImageClicked" Grid.Row="1"/>
+            <!-- Canvas donde se dibuja el patrón -->
+            <skia:SKCanvasView x:Name="patternCanvas" PaintSurface="OnCanvasViewPaintSurface" />
 
-        <!-- Canvas donde se dibuja el patrón -->
-        <skia:SKCanvasView x:Name="patternCanvas"
-                   Grid.Row="2"
-                   PaintSurface="OnCanvasViewPaintSurface"/>
-        
-        <!-- Entry para el titulo del patrón -->
-        <Entry x:Name="nombrePatron" Grid.Row="3" Grid.Column="0"></Entry>
-        
-        <!-- Botón para crear el patrón -->
-        <Button x:Name="subirImagen" Text="Subir Patrón" Clicked="OnUploadImageClicked" Grid.Row="3" Grid.Column="1"></Button>
-    </Grid>
+            <!-- Entry para el titulo del patrón -->
+            <VerticalStackLayout Grid.Row = "3" Grid.Column="0">
+                <Label Text="Nombre del patrón" FontAttributes="Bold" FontSize="14"/>
+                <Entry x:Name="nombrePatron" Placeholder="Ingrese el titulo"/>
+            </VerticalStackLayout>
+
+            <Grid RowDefinitions="Auto" ColumnDefinitions="Auto, Auto">
+                <!-- Botón para crear el patrón -->
+                <Button x:Name="subirImagen" Text="Subir Patrón" Grid.Column="0" Clicked="OnUploadImageClicked" IsEnabled="False" IsVisible="False"/>
+                <Button x:Name="cancelar" Text="Borrar" Grid.Column="1" Clicked="OnCancelarClicked" IsEnabled="False" IsVisible="False"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 
 </ContentPage>

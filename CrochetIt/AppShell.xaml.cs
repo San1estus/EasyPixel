@@ -8,6 +8,8 @@ namespace CrochetIt
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(PatternEditorPage), typeof(PatternEditorPage));
+            Routing.RegisterRoute(nameof(CatalogoPage), typeof(CatalogoPage));
+            Routing.RegisterRoute(nameof(DetallePage), typeof(DetallePage));
         }
     }
 }

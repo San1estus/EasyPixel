@@ -1,5 +1,6 @@
 ﻿using CrochetItAPI.Data;
 using CrochetItAPI.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CrochetItAPI.Services
 {
@@ -69,6 +70,11 @@ namespace CrochetItAPI.Services
                     throw new Exception("No se pudo actualizar el patron");
                 }
             }
+        }
+
+        public async Task<List<Patron>> GetAllPatronesAsync()
+        {
+            return await dbContext.Patrones.ToListAsync();
         }
 
         public async Task<Patron?> GetPatronAsync(int ID)

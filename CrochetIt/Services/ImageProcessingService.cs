@@ -6,26 +6,71 @@ namespace CrochetIt.Services
 {
     public class ImageProcessingService : IImageProcessingService
     {
-        public bool[,] ProcessImage(Stream imageStream, int gridSize)
+
+        public SKBitmap Pixelate(SKBitmap original, int pixelSize)
         {
-            var original = SKBitmap.Decode(imageStream);
+            int width = original.Width;
+            int height = original.Height;
 
-            var resized = original.Resize(new SKImageInfo(gridSize, gridSize), SKSamplingOptions.Default);
+            int smallWidth = Math.Max(1, width / pixelSize);
+            int smallHeight = Math.Max(1, height / pixelSize);
 
-            var pattern = new bool[gridSize, gridSize];
+            // Imagen reducida
+            SKBitmap smallBitmap = new SKBitmap(smallWidth, smallHeight);
 
-            for(int y = 0; y < gridSize; y++)
+            using (var canvas = new SKCanvas(smallBitmap))
             {
-                for (int x = 0; x < gridSize; x++)
-                {
-                    SKColor pixel = resized.GetPixel(x, y);
-                    float luminance = 0.2126f*pixel.Red + 0.7152f*pixel.Green + 0.0722f*pixel.Blue;
-
-                    pattern[y, x] = (luminance < 128 ? true : false);
-                }
+                canvas.DrawBitmap(
+                    original,
+                    new SKRect(0, 0, smallWidth, smallHeight),
+                    new SKPaint
+                    {
+                        FilterQuality = SKFilterQuality.None
+                    });
             }
 
-            return pattern;
+            // Imagen pixelada
+            SKBitmap pixelated = new SKBitmap(width, height);
+
+            using (var canvas = new SKCanvas(pixelated))
+            {
+                canvas.DrawBitmap(
+                    smallBitmap,
+                    new SKRect(0, 0, width, height),
+                    new SKPaint
+                    {
+                        FilterQuality = SKFilterQuality.None,
+                        IsAntialias = false
+                    });
+            }
+
+            return pixelated;
+        }
+
+        public byte[] ConvertToPNG(bool[,] imageMat)
+        {
+            int size = imageMat.GetLength(0);
+            SKBitmap patron = new SKBitmap(size, size);
+            for(int y = 0; y < size; y++)
+            {
+                for(int x = 0;x < size; x++)
+                {
+                    patron.SetPixel(x, y, imageMat[y,x] ? SKColors.Black : SKColors.White);
+                }
+            }
+            var imagen = SKImage.FromBitmap(patron).Encode(SKEncodedImageFormat.Png, 100);
+
+            return imagen.ToArray();
+        }
+        public byte[] ConvertToPNG(SKBitmap bitmap)
+        {
+            using var image = SKImage.FromBitmap(bitmap);
+
+            using var data = image.Encode(
+                SKEncodedImageFormat.Png,
+                100);
+
+            return data.ToArray();
         }
     }
 }

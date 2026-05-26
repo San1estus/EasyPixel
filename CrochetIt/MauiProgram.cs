@@ -1,4 +1,6 @@
-﻿using CrochetIt.Services;
+﻿using CommunityToolkit.Maui;
+using CrochetIt.Services;
+using CrochetIt.ViewModels;
 using CrochetIt.Views;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
@@ -13,6 +15,7 @@ namespace CrochetIt
             builder
                 .UseMauiApp<App>()
                 .UseSkiaSharp()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -24,6 +27,8 @@ namespace CrochetIt
 #endif
             builder.Services.AddSingleton<IImageProcessingService, ImageProcessingService>();
             builder.Services.AddTransient<PatternEditorPage>();
+            builder.Services.AddTransient<CatalogoPage>();
+            builder.Services.AddTransient<PatternEditorViewModel>();
             builder.Services.AddSingleton<IApiService>(sp =>
             {
                 var httpClient = new HttpClient

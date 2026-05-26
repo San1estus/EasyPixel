@@ -54,7 +54,22 @@ namespace CrochetIt.Services
                 return default;
 
             var result = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<T>(result, options);
+
+            try
+            {
+                return JsonSerializer.Deserialize<T>(result, options);
+            }
+            catch (JsonException)
+            {
+                // Si la respuesta no es JSON (por ejemplo, un URL en texto plano que empieza con 'h'),
+                // devolverla tal cual cuando el tipo esperado es string.
+                if (typeof(T) == typeof(string))
+                {
+                    return (T)(object)result;
+                }
+
+                return default;
+            }
         }
 
         public async Task<T> PutAsync<T>(string endpoint, int id, object data)
