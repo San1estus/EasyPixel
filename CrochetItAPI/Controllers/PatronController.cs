@@ -1,11 +1,14 @@
 ﻿using CrochetItAPI.Entities;
 using CrochetItAPI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace CrochetItAPI.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class PatronController : ControllerBase
@@ -26,7 +29,7 @@ namespace CrochetItAPI.Controllers
             }
             return Ok(patrones);
         }
-        // GET api/<PatronController>/5
+
         [HttpGet("obtenerpatron/{id}")]
         public async Task<ActionResult<Patron>> Get(int id)
         {
@@ -38,7 +41,6 @@ namespace CrochetItAPI.Controllers
             return Ok(patron);
         }
 
-        // POST api/<PatronController>
         [HttpPost("nuevopatron")]
         public async Task<ActionResult<Patron>> Post([FromBody] Patron patron)
         {
@@ -50,7 +52,6 @@ namespace CrochetItAPI.Controllers
             return Ok(patron);
         }
 
-        // PUT api/<PatronController>/5
         [HttpPut("actualizarpatron/{id}")]
         public async Task<ActionResult<Patron>> Put(int id, [FromBody] string nombre)
         {
@@ -62,7 +63,6 @@ namespace CrochetItAPI.Controllers
             return Ok(patronActualizado);
         }
 
-        // DELETE api/<PatronController>/5
         [HttpDelete("eliminarpatron/{id}")]
         public async Task<ActionResult<Patron>> Delete(int id)
         {
