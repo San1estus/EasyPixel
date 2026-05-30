@@ -28,7 +28,7 @@ public partial class DetallePage : ContentPage
 
         if (patron != null)
         {
-            lblNombre.Text = patron.Nombre;
+            lblNombre.Text = $"{patron.Nombre}";
             if (!string.IsNullOrEmpty(patron.ImageUrl))
             {
                 imgPatron.Source = patron.ImageUrl;

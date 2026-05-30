@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CrochetIt.Views.RegisterPage"
+             Title="RegisterPage">
+    <VerticalStackLayout>
+        <Image Source="logo.png" />
+
+        <Label Text="Correo electrónico" FontSize="24" FontAttributes="Bold" />
+        <Entry Text="{Binding Email}" Placeholder="Email" Keyboard="Email" />
+        
+        <Label Text="Nombre de Usuario" FontSize="24" FontAttributes="Bold" />
+        <Entry x:Name="usernameEntry" Placeholder="Usuario" />
+        
+        <Label Text="Contraseña" FontSize="24" FontAttributes="Bold" />
+        <Entry x:Name="passwordEntry" Placeholder="Contraseña" IsPassword="True" />
+
+        <Button Text="Registrarse" Command="{Binding RegisterCommand}" />
+        <Button Text="¿Ya tienes cuenta? Inicia Sesión" Command="{Binding GoToLoginCommand}" />
+
+        <Label Text="{Binding ErrorMessage}" TextColor="Red" />
+    </VerticalStackLayout>
+</ContentPage>

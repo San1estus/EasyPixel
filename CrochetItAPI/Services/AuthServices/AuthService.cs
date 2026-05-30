@@ -38,11 +38,11 @@ namespace CrochetItAPI.Services.AuthServices
 
         public async Task<TokenDTO> Login(UserDTO userDTO)
         {
-            var result = await signInManager.PasswordSignInAsync(userDTO.UserName, userDTO.Password, false, false);
+            var result = await signInManager.PasswordSignInAsync(userDTO.Email, userDTO.Password, false, false);
             if (result.Succeeded)
             {
-                var userId = await userManager.FindByNameAsync(userDTO.UserName);
-                return BuildToken(userDTO.UserName, userId.Id);
+                var userId = await userManager.FindByEmailAsync(userDTO.Email);
+                return BuildToken(userId.UserName, userId.Id);
             }
 
             return new TokenDTO();

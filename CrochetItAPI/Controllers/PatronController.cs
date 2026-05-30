@@ -1,4 +1,5 @@
-﻿using CrochetItAPI.Entities;
+﻿using CrochetItAPI.DTOs;
+using CrochetItAPI.Entities;
 using CrochetItAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -31,19 +32,41 @@ namespace CrochetItAPI.Controllers
         }
 
         [HttpGet("obtenerpatron/{id}")]
-        public async Task<ActionResult<Patron>> Get(int id)
+        public async Task<ActionResult<PatronDTO>> Get(int id)
         {
             var patron = await patronService.GetPatronAsync(id);
-            if(patron == null)
+            if (patron == null)
             {
                 return BadRequest("No se encontró el patrón");
             }
-            return Ok(patron);
+
+            // Mapear a DTO
+            var patronDTO = new PatronDTO
+            {
+                Id = patron.Id,
+                Nombre = patron.Nombre,
+                ImageUrl = patron.ImageUrl,
+                UserId = patron.UserId,
+                UserName = patron.UserName
+            };
+
+            return Ok(patronDTO);
         }
 
         [HttpPost("nuevopatron")]
         public async Task<ActionResult<Patron>> Post([FromBody] Patron patron)
         {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var userName = User.FindFirst("User")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("No hay usuario autenticado");
+            }
+
+            patron.UserId = userId;
+            patron.UserName = userName;
+
             var nuevoPatron = await patronService.CreatePatronAsync(patron);
             if (nuevoPatron == null)
             {

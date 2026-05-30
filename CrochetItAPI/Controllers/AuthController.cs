@@ -22,7 +22,8 @@ namespace CrochetItAPI.Controllers
             var result = await authService.CreateUser(newUser);
             if (result)
             {
-                return Ok();
+                var loginResult = await authService.Login(new UserDTO { Email = newUser.email, Password = newUser.password });
+                return Ok(loginResult);
             }
             return BadRequest();
         }

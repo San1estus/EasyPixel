@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CrochetIt.Services;
+using CrochetIt.Services.AuthServices;
 using SkiaSharp;
 using System.IO;
 
@@ -18,10 +19,12 @@ public partial class PatternEditorViewModel : ObservableObject
 
     public int PixelSizeInt => (int)Math.Round(PixelSize);
     private readonly IImageProcessingService imageService;
+    private readonly IAuthService authService;
 
-    public PatternEditorViewModel(IImageProcessingService imageService)
+    public PatternEditorViewModel(IImageProcessingService imageService, IAuthService authService)
     {
         this.imageService = imageService;
+        this.authService = authService;
     }
 
     partial void OnPixelSizeChanged(double value)

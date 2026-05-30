@@ -1,4 +1,5 @@
 using CrochetIt.Services;
+using CrochetIt.Services.AuthServices;
 using CrochetIt.ViewModels;
 using SkiaSharp;
     using SkiaSharp.Views.Maui;
@@ -13,9 +14,10 @@ using SkiaSharp;
         private readonly IImageProcessingService imageService;
         private readonly IApiService apiService;
         private readonly PatternEditorViewModel viewModel;
-        private readonly HttpClient httpClient;
+    private readonly IAuthService authService;
+    private readonly HttpClient httpClient;
 
-        public PatternEditorPage(IImageProcessingService imageService, IApiService apiService, PatternEditorViewModel viewModel)
+        public PatternEditorPage(IImageProcessingService imageService, IApiService apiService, PatternEditorViewModel viewModel, IAuthService authService)
         {
             InitializeComponent();
             this.imageService = imageService;
@@ -24,8 +26,8 @@ using SkiaSharp;
 
             BindingContext = viewModel;
             this.viewModel = viewModel;
-
-            viewModel.PropertyChanged += (s, e) =>
+            this.authService = authService;
+        viewModel.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(viewModel.PixelSize))
                 {
@@ -147,7 +149,7 @@ using SkiaSharp;
             }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"No se pudo guardar el paatrón: {ex.Message}", "OK");
+            await DisplayAlert("Error", $"No se pudo guardar el patrón: {ex.Message}", "OK");
         }
         finally
         {
