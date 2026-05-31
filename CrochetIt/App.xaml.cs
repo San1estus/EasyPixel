@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CrochetIt.Services.AuthServices;
 
 namespace CrochetIt
 {
@@ -11,7 +11,10 @@ namespace CrochetIt
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            var window = new Window(new AppShell());
+            window.Width = 800;
+            window.Height = 600;
+            return window;
         }
     }
 }

@@ -50,7 +50,7 @@ namespace CrochetIt.ViewModels
 
                 if (result)
                 {
-                    await Shell.Current.GoToAsync(nameof(LoginPage));
+                    await Shell.Current.GoToAsync(nameof(MainPage));
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace CrochetIt.ViewModels
         [RelayCommand]
         public async Task GoToLogin()
         {
-            await Shell.Current.GoToAsync(nameof(LoginPage));
+            await Shell.Current.GoToAsync(nameof(MainPage));
         }
     }
 }

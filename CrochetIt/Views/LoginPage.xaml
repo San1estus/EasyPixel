@@ -7,8 +7,8 @@
         <Image Source="logo.png" />
         <Label Text="Iniciar Sesión" FontSize="24" FontAttributes="Bold" Padding="20"/>
 
-        <Entry x:Name="emailEntry" Placeholder="Email" Keyboard="Email" />
-        <Entry x:Name="passwordEntry" Placeholder="Contraseña" IsPassword="True" />
+        <Entry Text="{Binding Email}" Placeholder="Email" Keyboard="Email" />
+        <Entry Text="{Binding Password}" Placeholder="Contraseña" IsPassword="True" />
 
         <Button Text="Iniciar Sesión" Command="{Binding LoginCommand}" />
         <Button Text="¿No tienes cuenta? Regístrate" Command="{Binding GoToRegisterCommand}" />

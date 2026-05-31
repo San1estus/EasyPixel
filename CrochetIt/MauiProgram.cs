@@ -5,6 +5,7 @@ using CrochetIt.ViewModels;
 using CrochetIt.Views;
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using Syncfusion.Maui.Core.Hosting;
 
 namespace CrochetIt
 {
@@ -17,6 +18,7 @@ namespace CrochetIt
                 .UseMauiApp<App>()
                 .UseSkiaSharp()
                 .UseMauiCommunityToolkit()
+                .ConfigureSyncfusionCore()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -26,11 +28,21 @@ namespace CrochetIt
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-            builder.Services.AddSingleton<IImageProcessingService, ImageProcessingService>();
+
+
+            // ViewModels
+            builder.Services.AddTransient<LoginViewModel>();
+            builder.Services.AddTransient<RegisterViewModel>();
+            builder.Services.AddTransient<PatternEditorViewModel>();
+
+            // Vistas
+            builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<PatternEditorPage>();
             builder.Services.AddTransient<CatalogoPage>();
 
-            builder.Services.AddTransient<PatternEditorViewModel>();
+            // Servicios
+            builder.Services.AddSingleton<IImageProcessingService, ImageProcessingService>();
             builder.Services.AddSingleton<IAuthService, AuthService>();
             builder.Services.AddSingleton<IApiService>(sp =>
             {
@@ -39,7 +51,8 @@ namespace CrochetIt
                     BaseAddress = new Uri("https://localhost:7089/api/")
                 };
 
-                return new ApiService(httpClient);
+                var authService = sp.GetRequiredService<IAuthService>();
+                return new ApiService(httpClient, authService);
             });
             return builder.Build();
         }

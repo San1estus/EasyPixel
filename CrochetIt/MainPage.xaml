@@ -6,7 +6,7 @@
 
     <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
 
-        <Label Text="Crochet It"
+        <Label Text="Easy Pixel"
                FontSize="32"
                HorizontalOptions="Center"/>
 

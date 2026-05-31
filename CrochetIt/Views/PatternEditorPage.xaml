@@ -9,7 +9,7 @@
 
     <ScrollView>
         <VerticalStackLayout>
-            <Label Text="{Binding PixelSizeInt}" FontSize="18"/>
+            <Label Text="{Binding PixelSizeIntNingun}" FontSize="18"/>
             <Slider Minimum="1" Maximum="100" Value="{Binding PixelSize}" DragCompleted="OnSliderDragCompleted"/>
 
             <Button Text="Seleccionar imagen" Clicked="OnSelectImageClicked" />

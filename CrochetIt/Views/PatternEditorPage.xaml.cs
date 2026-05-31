@@ -90,7 +90,7 @@ using SkiaSharp;
     {
         if (string.IsNullOrWhiteSpace(nombrePatron.Text))
         {
-            await DisplayAlertAsync("Falta asignar nombre", "Indique un nombre para su patrón", "Ok");
+            await DisplayAlert("Falta asignar nombre", "Indique un nombre para su patrón", "Ok");
             return;
         }
             try
@@ -121,6 +121,7 @@ using SkiaSharp;
                 {
                     Content = content
                 };
+
                 request.Headers.Add("x-ms-blob-type", "BlockBlob");
 
                 var putResponse = await httpClient.SendAsync(request);
@@ -132,11 +133,14 @@ using SkiaSharp;
 
                 // Obtener la URL pública del blob (sin el query string SAS) y guardar esa URL
                 var publicUrl = sasUrl.Contains('?') ? sasUrl.Split('?')[0] : sasUrl;
+                var (userId, userName) = await authService.GetUserInfoAsync();
                 var patronObj = new {
                     Nombre = nombrePatron.Text,
-                    ImageUrl = publicUrl
-                };
-
+                    ImageUrl = publicUrl,
+                    UserId = userId,
+                    UserName = userName
+                };                       
+                
                 // Deshabilitar botón mientras se guarda
                 subirImagen.IsEnabled = false;
                 cancelar.IsEnabled = false;
