@@ -38,11 +38,13 @@ namespace CrochetItAPI.Services.AuthServices
 
         public async Task<TokenDTO> Login(UserDTO userDTO)
         {
-            var result = await signInManager.PasswordSignInAsync(userDTO.UserName, userDTO.Password, false, false);
+            var user = await userManager.FindByEmailAsync(userDTO.Email);
+            if (user == null) return new TokenDTO();
+
+            var result = await signInManager.PasswordSignInAsync(user.UserName, userDTO.Password, false, false);
             if (result.Succeeded)
             {
-                var userId = await userManager.FindByNameAsync(userDTO.UserName);
-                return BuildToken(userDTO.UserName, userId.Id);
+                return BuildToken(user.UserName, user.Id);
             }
 
             return new TokenDTO();
@@ -72,7 +74,9 @@ namespace CrochetItAPI.Services.AuthServices
             return new TokenDTO()
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration
+                Expiration = expiration,
+                UserName = userName,
+                UserId = id
             };
         }
     }

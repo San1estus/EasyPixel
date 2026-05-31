@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -15,14 +16,25 @@ namespace CrochetIt.Services
             this.httpClient = httpClient;
             this.options = new JsonSerializerOptions{PropertyNameCaseInsensitive = true};
         }
+        private async Task AddAuthorizationHeader()
+        {
+            var token = await SecureStorage.Default.GetAsync("auth_token");
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", token);
+            }
+        }
         public async Task<bool> DeleteAsync(string endpoint, int id)
         {
+            await AddAuthorizationHeader();
             var response = await httpClient.DeleteAsync($"{endpoint}/{id}");
             return response.IsSuccessStatusCode;
         }
 
         public async Task<T> GetAsync<T>(string endpoint)
         {
+            await AddAuthorizationHeader();
             var response = await httpClient.GetAsync($"{endpoint}");
 
             if (!response.IsSuccessStatusCode)
@@ -34,6 +46,7 @@ namespace CrochetIt.Services
 
         public async Task<T> GetByIdAsync<T>(string endpoint, int id)
         {
+            await AddAuthorizationHeader();
             var response = await httpClient.GetAsync($"{endpoint}/{id}");
 
             if (!response.IsSuccessStatusCode)
@@ -45,10 +58,14 @@ namespace CrochetIt.Services
 
         public async Task<T> PostAsync<T>(string endpoint, object data)
         {
+            await AddAuthorizationHeader();
             var json = JsonSerializer.Serialize(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await httpClient.PostAsync(endpoint, content);
+
+            var debugBody = await response.Content.ReadAsStringAsync();
+            System.Diagnostics.Debug.WriteLine($"Response: {debugBody}");
 
             if (!response.IsSuccessStatusCode)
                 return default;
@@ -59,10 +76,9 @@ namespace CrochetIt.Services
             {
                 return JsonSerializer.Deserialize<T>(result, options);
             }
+
             catch (JsonException)
             {
-                // Si la respuesta no es JSON (por ejemplo, un URL en texto plano que empieza con 'h'),
-                // devolverla tal cual cuando el tipo esperado es string.
                 if (typeof(T) == typeof(string))
                 {
                     return (T)(object)result;
@@ -74,6 +90,7 @@ namespace CrochetIt.Services
 
         public async Task<T> PutAsync<T>(string endpoint, int id, object data)
         {
+            await AddAuthorizationHeader();
             var json = JsonSerializer.Serialize(data);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -84,6 +101,14 @@ namespace CrochetIt.Services
 
             var result = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<T>(result, options);
+        }
+        public async Task<bool> PostVoidAsync(string endpoint, object data)
+        {
+            await AddAuthorizationHeader();
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync(endpoint, content);
+            return response.IsSuccessStatusCode;
         }
     }
 }

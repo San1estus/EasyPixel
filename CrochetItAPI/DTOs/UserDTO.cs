@@ -1,8 +1,11 @@
-﻿namespace CrochetItAPI.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CrochetItAPI.DTOs
 {
     public class UserDTO
     {
-        public string UserName { get; set; }
+        [EmailAddress(ErrorMessage = "El formato de correo es inválido")]
+        public string Email { get; set; }
         public string Password { get; set; }
     }
 }

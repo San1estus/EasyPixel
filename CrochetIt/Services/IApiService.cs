@@ -11,5 +11,6 @@ namespace CrochetIt.Services
         Task<T> PostAsync<T>(string endpoint, object data);
         Task<T> PutAsync<T>(string endpoint, int id, object data);
         Task<bool> DeleteAsync(string endpoint, int id);
+        Task<bool> PostVoidAsync(string endpoint, object data);
     }
 }

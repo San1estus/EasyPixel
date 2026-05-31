@@ -44,14 +44,16 @@ namespace CrochetItAPI.Controllers
         [HttpPost("nuevopatron")]
         public async Task<ActionResult<Patron>> Post([FromBody] Patron patron)
         {
+            var userName = User.FindFirst("User")?.Value;
+            patron.UserName = userName;
+
             var nuevoPatron = await patronService.CreatePatronAsync(patron);
             if (nuevoPatron == null)
             {
                 return BadRequest("No se pudo registrar el patron.");
             }
-            return Ok(patron);
+            return Ok(nuevoPatron);
         }
-
         [HttpPut("actualizarpatron/{id}")]
         public async Task<ActionResult<Patron>> Put(int id, [FromBody] string nombre)
         {

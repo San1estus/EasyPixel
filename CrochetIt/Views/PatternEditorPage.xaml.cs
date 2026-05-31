@@ -1,3 +1,4 @@
+using CrochetIt.Models;
 using CrochetIt.Services;
 using CrochetIt.ViewModels;
 using SkiaSharp;
@@ -88,7 +89,7 @@ using SkiaSharp;
     {
         if (string.IsNullOrWhiteSpace(nombrePatron.Text))
         {
-            await DisplayAlertAsync("Falta asignar nombre", "Indique un nombre para su patrón", "Ok");
+            await DisplayAlert("Falta asignar nombre", "Indique un nombre para su patrón", "Ok");
             return;
         }
             try
@@ -141,7 +142,7 @@ using SkiaSharp;
                 subirImagen.Text = "Guardando...";
 
                 // Guardar patrón en el backend
-                var created = await apiService.PostAsync<object>("patron/nuevopatron", patronObj);
+                var created = await apiService.PostAsync<Patron>("patron/nuevopatron", patronObj);
 
                 await DisplayAlert("Éxito", "Patrón registrado correctamente", "OK");
             }

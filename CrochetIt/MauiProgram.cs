@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using CrochetIt.Services;
+using CrochetIt.Services.AuthServices;
 using CrochetIt.ViewModels;
 using CrochetIt.Views;
 using Microsoft.Extensions.Logging;
@@ -26,9 +27,18 @@ namespace CrochetIt
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<IImageProcessingService, ImageProcessingService>();
+            builder.Services.AddSingleton<IAuthService, AuthService>();
+
+            builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<RegisterPage>();
             builder.Services.AddTransient<PatternEditorPage>();
             builder.Services.AddTransient<CatalogoPage>();
+            builder.Services.AddTransient<MainPage>();
+
             builder.Services.AddTransient<PatternEditorViewModel>();
+            builder.Services.AddTransient<LoginViewModel>();
+            builder.Services.AddTransient<RegisterViewModel>();
+
             builder.Services.AddSingleton<IApiService>(sp =>
             {
                 var httpClient = new HttpClient
