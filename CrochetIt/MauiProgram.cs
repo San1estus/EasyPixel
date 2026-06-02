@@ -43,7 +43,7 @@ namespace CrochetIt
             {
                 var httpClient = new HttpClient
                 {
-                    BaseAddress = new Uri("https://localhost:7089/api/")
+                    BaseAddress = new Uri("https://easypixel-cjfpamfygbfkguc7.centralus-01.azurewebsites.net/api/")
                 };
 
                 return new ApiService(httpClient);

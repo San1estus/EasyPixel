@@ -64,9 +64,6 @@ namespace CrochetIt.Services
 
             var response = await httpClient.PostAsync(endpoint, content);
 
-            var debugBody = await response.Content.ReadAsStringAsync();
-            System.Diagnostics.Debug.WriteLine($"Response: {debugBody}");
-
             if (!response.IsSuccessStatusCode)
                 return default;
 

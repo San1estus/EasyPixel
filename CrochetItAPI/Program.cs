@@ -56,6 +56,8 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.MapGet("/", () => "API funcionando");
+
 app.MapControllers();
 
 app.Run();
