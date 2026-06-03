@@ -12,22 +12,18 @@
             <Label Text="{Binding PixelSizeInt}" FontSize="18"/>
             <Slider Minimum="1" Maximum="100" Value="{Binding PixelSize}" DragCompleted="OnSliderDragCompleted"/>
 
-            <!-- Botón para elegir imagen -->
             <Button Text="Seleccionar imagen" Clicked="OnSelectImageClicked" />
 
-            <!-- Canvas donde se dibuja el patrón -->
-            <skia:SKCanvasView x:Name="patternCanvas" PaintSurface="OnCanvasViewPaintSurface" />
+            <skia:SKCanvasView x:Name="patternCanvas" PaintSurface="OnCanvasViewPaintSurface" Margin="10"/>
 
-            <!-- Entry para el titulo del patrón -->
             <VerticalStackLayout Grid.Row = "3" Grid.Column="0">
                 <Label Text="Nombre del patrón" FontAttributes="Bold" FontSize="14"/>
                 <Entry x:Name="nombrePatron" Placeholder="Ingrese el titulo"/>
             </VerticalStackLayout>
 
             <Grid RowDefinitions="Auto" ColumnDefinitions="Auto, Auto">
-                <!-- Botón para crear el patrón -->
-                <Button x:Name="subirImagen" Text="Subir Patrón" Grid.Column="0" Clicked="OnUploadImageClicked" IsEnabled="False" IsVisible="False"/>
-                <Button x:Name="cancelar" Text="Borrar" Grid.Column="1" Clicked="OnCancelarClicked" IsEnabled="False" IsVisible="False"/>
+                <Button x:Name="subirImagen" Text="Subir Patrón" Grid.Column="0" Clicked="OnUploadImageClicked" IsEnabled="False" IsVisible="False" Margin="10"/>
+                <Button x:Name="cancelar" Text="Borrar" Grid.Column="1" Clicked="OnCancelarClicked" IsEnabled="False" IsVisible="False" Margin="10"/>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>

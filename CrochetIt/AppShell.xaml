@@ -7,9 +7,16 @@
     xmlns:views="clr-namespace:CrochetIt.Views"
     Title="CrochetIt">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate views:LoginPage}"
-        Route="LoginPage" />
-
+    <TabBar>
+        <ShellContent
+            Title="Catálogo"
+            Icon="navegar.png"
+            ContentTemplate="{DataTemplate views:CatalogoPage}"
+            Route="CatalogoPage" />
+        <ShellContent
+            Title="Crear Patrón"
+            Icon="crear.png"
+            ContentTemplate="{DataTemplate views:PatternEditorPage}"
+            Route="PatternEditorPage" />
+    </TabBar>
 </Shell>

@@ -18,7 +18,6 @@ public partial class CatalogoPage : ContentPage
         base.OnAppearing();
         CargarCatalogo();
     }
-
     private async void CargarCatalogo()
     {
         var result = await apiService.GetAsync<List<Patron>>("patron/todos");

@@ -44,7 +44,7 @@ public partial class LoginViewModel : ObservableObject
 
             if (result != null)
             {
-                await Shell.Current.GoToAsync(nameof(MainPage));
+                Application.Current.MainPage = new AppShell();
             }
             else
             {

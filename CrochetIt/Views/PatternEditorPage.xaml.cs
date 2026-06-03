@@ -64,6 +64,7 @@ using SkiaSharp;
             var result = await MediaPicker.PickPhotoAsync();
             if (result == null) return;
             imageName = result.FileName;
+            
 
             using var stream = await result.OpenReadAsync();
             originalBitmap = SKBitmap.Decode(stream);
@@ -148,7 +149,7 @@ using SkiaSharp;
             }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", $"No se pudo guardar el paatrón: {ex.Message}", "OK");
+            await DisplayAlert("Error", $"No se pudo guardar el patrón: {ex.Message}", "OK");
         }
         finally
         {
@@ -184,6 +185,10 @@ using SkiaSharp;
         cancelar.IsEnabled = false;
         cancelar.IsVisible = false;
         nombrePatron.Text = string.Empty;
+        pixelatedBitmap = null;
+        originalBitmap = null;
+        imageName = null;
+        patternCanvas.InvalidateSurface();
     }
 
     private void UpdatePixelation()
