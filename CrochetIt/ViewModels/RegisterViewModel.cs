@@ -11,7 +11,7 @@ namespace CrochetIt.ViewModels
     public partial class RegisterViewModel : ObservableObject
     {
         private readonly IAuthService authService;
-
+        private readonly IServiceProvider serviceProvider;
         [ObservableProperty]
         private string email = string.Empty;
 
@@ -27,9 +27,10 @@ namespace CrochetIt.ViewModels
         [ObservableProperty]
         private bool isLoading = false;
 
-        public RegisterViewModel(IAuthService authService)
+        public RegisterViewModel(IAuthService authService, IServiceProvider serviceProvider)
         {
             this.authService = authService;
+            this.serviceProvider = serviceProvider;
         }
 
         [RelayCommand]
@@ -50,7 +51,8 @@ namespace CrochetIt.ViewModels
 
                 if (result)
                 {
-                    await Shell.Current.GoToAsync(nameof(LoginPage));
+                    var loginPage = serviceProvider.GetRequiredService<LoginPage>();
+                    await Application.Current.MainPage.Navigation.PushAsync(loginPage);
                 }
 
                 else
@@ -71,7 +73,8 @@ namespace CrochetIt.ViewModels
         [RelayCommand]
         public async Task GoToLogin()
         {
-            await Shell.Current.GoToAsync(nameof(LoginPage));
+            var loginPage = serviceProvider.GetRequiredService<LoginPage>();
+            await Application.Current.MainPage.Navigation.PushAsync(loginPage);
         }
     }
 }

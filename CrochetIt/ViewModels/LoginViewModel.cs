@@ -8,7 +8,7 @@ namespace CrochetIt.ViewModels;
 public partial class LoginViewModel : ObservableObject
 {
     private readonly IAuthService authService;
-
+    private readonly IServiceProvider serviceProvider;
     [ObservableProperty]
     private string email = string.Empty;
 
@@ -21,9 +21,10 @@ public partial class LoginViewModel : ObservableObject
     [ObservableProperty]
     private bool isLoading = false;
 
-    public LoginViewModel(IAuthService authService)
+    public LoginViewModel(IAuthService authService, IServiceProvider serviceProvider)
     {
         this.authService = authService;
+        this.serviceProvider = serviceProvider;
     }
 
     [RelayCommand]
@@ -64,6 +65,7 @@ public partial class LoginViewModel : ObservableObject
     [RelayCommand]
     public async Task GoToRegister()
     {
-        await Shell.Current.GoToAsync(nameof(RegisterPage));
+        var registerPage = serviceProvider.GetRequiredService<RegisterPage>();
+        await Application.Current.MainPage.Navigation.PushAsync(registerPage);
     }
 }
